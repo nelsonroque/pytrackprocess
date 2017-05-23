@@ -18,6 +18,12 @@ import pyeye.reports.event
 import pyeye.reports.trial
 ```
 
+## Define variables for data path and variable for participant filename (without extension)
+```
+data_path = 'data/'
+user_file_info = 'sub_2015'
+```
+
 ------
 
 ### Single trial output (assumed trial has start | end flags)
