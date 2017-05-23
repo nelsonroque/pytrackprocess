@@ -11,10 +11,6 @@ Python script to pre-process Eyelink ASCII files and extract data in csv format 
 - extract saccades only<br>
 
 # Usage
-- See <i>usage.py</i> for details on function calls and data paths
-
-# Example Function Calls
-
 ## First, import...
 
 ```
@@ -53,3 +49,6 @@ pyeye.reports.event.fixation(data_path,user_file_info,'R',"start_trial",'stop_tr
 ```python
 pyeye.reports.event.saccade(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
 ```
+
+## Example of batch processing (with glob and timing)
+- See <i>usage.py</i> for details on function calls and data paths
