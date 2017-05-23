@@ -2,7 +2,10 @@
 import time
 import glob
 
-# define function to read baseline data
+# [START_FUNCTION] -----------------------------------------------------
+# define function to read all data (at the frame level, between two MSG flags)
+# vars: frame, x, y, pupil
+# ----------------------------------------------------------------------
 def readWindowBetweenFlags(data_path,user_file,startFlag,endFlag,section,filestring,inType,outType):
     start_time = time.time()
 
@@ -45,6 +48,7 @@ def readWindowBetweenFlags(data_path,user_file,startFlag,endFlag,section,filestr
     print("SESSION TOTAL PROCESSING TIME:",elapsed,"seconds")
 # [END_FUNCTION] -------------------------------------------------------
 
+# [START_FUNCTION] -----------------------------------------------------
 def extract_BaselineSamples(data_path,user_file):
     start_time = time.time()
     readWindowBetweenFlags(data_path,user_file,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
@@ -53,18 +57,19 @@ def extract_BaselineSamples(data_path,user_file):
     print("PARTICIPANT TOTAL PROCESSING TIME:",elapsed,"seconds")
 # [END_FUNCTION] -------------------------------------------------------
 
-# for each participant
+# ==========================--------------------------------------------
+# USAGE OF PYTRACKPRO (working title)
+# ==========================--------------------------------------------
+
 # create filename
 data_path = 'data/'
 
 # glob search construction
 glob_search = data_path + "*.asc"
 
-def bulk
-
-# search for all asc files
+# search for all asc files (for each participant)
 for name in glob.glob(glob_search):
-    filename = name
+    # split everything off except the participant identifier
     user_file_info = name.split("data\\")[1].split(".asc")[0]
 
     # process participant
