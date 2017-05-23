@@ -1,6 +1,6 @@
 '''
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# PYTRACKPRO (v.0) #
+# PYTRACKPRO (v.0.1) #
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # ASSUMPTIONS
@@ -92,7 +92,8 @@ def custom_batch(data_path,glob_search):
         # -----------------------------------------------
 
         # MODIFY YOUR FUNCTION HERE FOR YOUR EXPERIMENT
-        extractSamples_Experiment_PUPILCAPTURE(data_path,user_file_info)
+        #extractSamples_Experiment_PUPILCAPTURE(data_path,user_file_info)
+        extractSamples_Experiment_PUPILCAPTURE_FirstTrial(data_path,user_file_info)
 
         # -----------------------------------------------
         # -----------------------------------------------
@@ -116,6 +117,15 @@ def extractSamples_Experiment_PUPILCAPTURE(data_path,user_file):
     readWindowBetweenFlags(data_path,user_file,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
     readWindowBetweenFlags(data_path,user_file,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
 # [END_FUNCTION] -------------------------------------------------------
+
+# [START_FUNCTION] -----------------------------------------------------
+# extract samples for baseline period for a single participant (could be used in batch (see below, USAGE))
+# ----------------------------------------------------------------------
+def extractSamples_Experiment_PUPILCAPTURE_FirstTrial(data_path,user_file):
+    # process both baseline events
+    readWindowBetweenFlags(data_path,user_file,"start_trial","end_trial","EXPERIMENT","EXP",".asc",".csv")
+# [END_FUNCTION] -------------------------------------------------------
+
 
 # ==========================--------------------------------------------
 # BULK USAGE OF PYTRACKPRO
