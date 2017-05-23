@@ -15,6 +15,13 @@ Python script to pre-process Eyelink ASCII files and extract data in csv format 
 
 # Example Function Calls
 
+## First, import...
+
+'''
+import pyeye.reports.event
+import pyeye.reports.trial
+'''
+
 ### Single trial output (assumed trial has start | end flags)
 
 '''
