@@ -33,12 +33,12 @@ def custom_batch(data_path,glob_search):
         # -----------------------------------------------
 
         # EXAMPLES OF ALL FUNCTION CALLS POSSIBLE AT THE MOMENT (FOR EACH PARTICIPANT)
-        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
-        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
-        pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".asc",".csv")
-        pyeye.reports.event.blink(data_path,user_file_info,"start_trial",'stop_trial',"BLINKS",".asc",".csv")
-        pyeye.reports.event.fixation(data_path,user_file_info,"start_trial",'stop_trial',"FIXATION",".asc",".csv")
-        pyeye.reports.event.saccade(data_path,user_file_info,"start_trial",'stop_trial',"SACCADE",".asc",".csv")
+        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1",".csv")
+        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2",".csv")
+        pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".csv")
+        pyeye.reports.event.blink(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
+        pyeye.reports.event.fixation(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
+        pyeye.reports.event.saccade(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
 
         # -----------------------------------------------
         # -----------------------------------------------

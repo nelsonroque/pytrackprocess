@@ -23,7 +23,7 @@
 # define function to read all data (at the frame level, between two MSG flags)
 # vars: frame, x, y, pupil
 # ----------------------------------------------------------------------
-def single(data_path,user_file,startFlag,endFlag,section,filestring,inType,outType):
+def single(data_path,user_file,startFlag,endFlag,filestring,outType):
     import time
     import glob
     start_time = time.time()
@@ -32,7 +32,7 @@ def single(data_path,user_file,startFlag,endFlag,section,filestring,inType,outTy
     TRACK_MSGS = ['SSACC','ESACC','SFIX','EFIX','SBLINK','EBLINK','END','MSG']
 
     # while the asc file has data to read
-    input_filename = (data_path+user_file+inType)
+    input_filename = (data_path+user_file+".asc")
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file
@@ -44,7 +44,7 @@ def single(data_path,user_file,startFlag,endFlag,section,filestring,inType,outTy
         for line in f:
             # get line where baseline starts (pre or post)
             if(startFlag in line):
-                SECTION = section
+                SECTION = filestring
                 break
         for line in f:
             # get line where baseline ends (pre or post)
@@ -73,7 +73,7 @@ def single(data_path,user_file,startFlag,endFlag,section,filestring,inType,outTy
 # define function to read all data (at the frame level, between two MSG flags)
 # vars: frame, x, y, pupil
 # ----------------------------------------------------------------------
-def multiple(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
+def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
     import time
     import glob
 
@@ -83,7 +83,7 @@ def multiple(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
     TRACK_MSGS = ['SSACC','ESACC','SFIX','EFIX','SBLINK','EBLINK','END','MSG']
 
     # while the asc file has data to read
-    input_filename = (data_path+user_file+inType)
+    input_filename = (data_path+user_file+'.asc')
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file

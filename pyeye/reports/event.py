@@ -21,18 +21,21 @@
 
 # [START_FUNCTION] -----------------------------------------------------
 # for each trial, extract blinks, and blink duration with frames (for labelling tracking data)
-def blink(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
+def blink(data_path,user_file,eyeTracked,startFlag,endFlag,outType):
     import time
     import glob
 
     start_time = time.time()
 
     # define eyetracking messages to ignore
-    BLINK_MSGS = ['EBLINK']
+    EVENT_SENTINEL = ['EBLINK']
+    SEARCH_MSG = (EVENT_SENTINEL[0]+eyeTracked)
     TRACK_MSGS = ['END','MSG']
 
+    filestring = 'BLINK'
+
     # while the asc file has data to read
-    input_filename = (data_path+user_file+inType)
+    input_filename = (data_path+user_file+'.asc')
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file
@@ -59,10 +62,10 @@ def blink(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
                     TRIAL += 1
                 else:
                     if(startFound):
-                        if any(x in line for x in BLINK_MSGS):
+                        if any(x in line for x in EVENT_SENTINEL):
                             myline = line.replace(' ', '')
                             line_data = myline.split("\t")
-                            START_FRAME = line_data[0].split("EBLINKR")[1]
+                            START_FRAME = line_data[0].split(SEARCH_MSG)[1]
                             END_FRAME = line_data[1]
                             BLINK_DURATION = line_data[2].rstrip("\n")
                             TRIAL_DATA = [str(TRIAL),START_FRAME,END_FRAME,BLINK_DURATION]
@@ -76,17 +79,20 @@ def blink(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
 
 # [START_FUNCTION] -----------------------------------------------------
 # for each trial, extract blinks, and blink duration with frames (for labelling tracking data)
-def fixation(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
+def fixation(data_path,user_file,eyeTracked,startFlag,endFlag,outType):
     import time
     import glob
     start_time = time.time()
 
     # define eyetracking messages to ignore
-    BLINK_MSGS = ['EFIX']
+    EVENT_SENTINEL = ['EFIX']
+    SEARCH_MSG = (EVENT_SENTINEL[0]+eyeTracked)
     TRACK_MSGS = ['END','MSG']
 
+    filestring = 'FIXATION'
+
     # while the asc file has data to read
-    input_filename = (data_path+user_file+inType)
+    input_filename = (data_path+user_file+'.asc')
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file
@@ -113,12 +119,12 @@ def fixation(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
                     TRIAL += 1
                 else:
                     if(startFound):
-                        if any(x in line for x in BLINK_MSGS):
+                        if any(x in line for x in EVENT_SENTINEL):
                             #print(line)
                             myline = line.replace(' ', '')
                             line_data = myline.split("\t")
                             #print(line_data)
-                            START_FRAME = line_data[0].split('EFIXR')[1]
+                            START_FRAME = line_data[0].split(SEARCH_MSG)[1]
                             END_FRAME = line_data[1]
                             BLINK_DURATION = line_data[2].rstrip("\n")
                             AVG_X = line_data[3].rstrip("\n")
@@ -135,17 +141,20 @@ def fixation(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
 
 # [START_FUNCTION] -----------------------------------------------------
 # for each trial, extract blinks, and blink duration with frames (for labelling tracking data)
-def saccade(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
+def saccade(data_path,user_file,eyeTracked,startFlag,endFlag,outType):
     import time
     import glob
     start_time = time.time()
 
     # define eyetracking messages to ignore
-    BLINK_MSGS = ['ESACC']
+    EVENT_SENTINEL = ['ESACC']
+    SEARCH_MSG = (EVENT_SENTINEL[0]+eyeTracked)
     TRACK_MSGS = ['END','MSG']
 
+    filestring = 'SACCADE'
+
     # while the asc file has data to read
-    input_filename = (data_path+user_file+inType)
+    input_filename = (data_path+user_file+'.asc')
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file
@@ -172,12 +181,12 @@ def saccade(data_path,user_file,startFlag,endFlag,filestring,inType,outType):
                     TRIAL += 1
                 else:
                     if(startFound):
-                        if any(x in line for x in BLINK_MSGS):
+                        if any(x in line for x in EVENT_SENTINEL):
                             #print(line)
                             myline = line.replace(' ', '')
                             line_data = myline.split("\t")
                             #print(line_data)
-                            START_FRAME = line_data[0].split('ESACCR')[1]
+                            START_FRAME = line_data[0].split(SEARCH_MSG)[1]
                             END_FRAME = line_data[1]
                             SACCADE_DURATION = line_data[2].rstrip("\n")
                             START_X = line_data[3].rstrip("\n")
