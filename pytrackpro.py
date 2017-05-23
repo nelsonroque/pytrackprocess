@@ -18,11 +18,16 @@
 - SHORTEN FUNCTION CALLS
 - IMPLEMENT READING OF CONFIG FILE FOR TRIAL VARS TO LOOK FOR
 '''
-# ----------------------------------------------------------------------
-# libraries
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# LIBRARIES
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 import time
 import glob
 # ----------------------------------------------------------------------
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# FUNCTIONS
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # [START_FUNCTION] -----------------------------------------------------
 # define function to read all data (at the frame level, between two MSG flags)
@@ -57,12 +62,60 @@ def readWindowBetweenFlags(data_path,user_file,startFlag,endFlag,section,filestr
                 # get eye movements/pupil until end of baseline, #ignorind eyetracking messages
                 if not any(x in line for x in TRACK_MSGS):
                     line = line.replace(' ', '')
+                    #print(line)
                     line_data = line.split("\t")
                     FRAME = line_data[0]
+                    if(FRAME.isdigit()):
+                        X_COORD = line_data[1]
+                        Y_COORD = line_data[2]
+                        PUPIL_SIZE = line_data[3]
+                        TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                        df.write(",".join(TRIAL_DATA)+"\n")
+
+    df.close()
+    elapsed = time.time() - start_time
+    print("SESSION TOTAL PROCESSING TIME:",elapsed,"seconds")
+# [END_FUNCTION] -------------------------------------------------------
+
+# [START_FUNCTION] -----------------------------------------------------
+# define function to read all data (at the frame level, between two MSG flags)
+# vars: frame, x, y, pupil
+# ----------------------------------------------------------------------
+def getSamples_byTrial(data_path,user_file,startFlag,filestring,inType,outType):
+    start_time = time.time()
+
+    # define eyetracking messages to ignore
+    TRACK_MSGS = ['SSACC','ESACC','SFIX','EFIX','SBLINK','EBLINK','END','MSG']
+
+    # while the asc file has data to read
+    input_filename = (data_path+user_file+inType)
+    output_filename = (data_path+user_file+"_"+filestring+outType)
+
+    # open output file
+    df = open((output_filename),'a')
+
+    # start event counter
+    TRIAL = 0
+
+    # open the input file for reading
+    with open(input_filename,'r') as f:
+        # read each line
+        for line in f:
+            # get line where baseline starts (pre or post)
+            if(startFlag in line):
+                SECTION = TRIAL
+                TRIAL += 1
+                break
+        for line in f:
+            if not any(x in line for x in TRACK_MSGS):
+                line = line.replace(' ', '')
+                line_data = line.split("\t")
+                FRAME = line_data[0]
+                if(FRAME.isdigit()):
                     X_COORD = line_data[1]
                     Y_COORD = line_data[2]
                     PUPIL_SIZE = line_data[3]
-                    TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                    TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
                     df.write(",".join(TRIAL_DATA)+"\n")
 
     df.close()
@@ -93,7 +146,8 @@ def custom_batch(data_path,glob_search):
 
         # MODIFY YOUR FUNCTION HERE FOR YOUR EXPERIMENT
         #extractSamples_Experiment_PUPILCAPTURE(data_path,user_file_info)
-        extractSamples_Experiment_PUPILCAPTURE_FirstTrial(data_path,user_file_info)
+        #extractSamples_Experiment_PUPILCAPTURE_FirstTrial(data_path,user_file_info)
+        getSamples_byTrial(data_path,user_file_info,"start_trial","EXP",".asc",".csv")
 
         # -----------------------------------------------
         # -----------------------------------------------
@@ -106,7 +160,7 @@ def custom_batch(data_path,glob_search):
 
     # get elapsed time for full batch processing
     process_elapsed_time = time.time() - process_time
-    print("BATCH TOTAL PROCESSING TIME:",elapsed,"seconds")
+    print("BATCH TOTAL PROCESSING TIME:",process_elapsed_time,"seconds")
 # ----------------------------------------------------------------------
 
 # [START_FUNCTION] -----------------------------------------------------
@@ -123,9 +177,8 @@ def extractSamples_Experiment_PUPILCAPTURE(data_path,user_file):
 # ----------------------------------------------------------------------
 def extractSamples_Experiment_PUPILCAPTURE_FirstTrial(data_path,user_file):
     # process both baseline events
-    readWindowBetweenFlags(data_path,user_file,"start_trial","end_trial","EXPERIMENT","EXP",".asc",".csv")
+    readWindowBetweenFlags(data_path,user_file,"start_trial","stop_trial","EXPERIMENT","EXP",".asc",".csv")
 # [END_FUNCTION] -------------------------------------------------------
-
 
 # ==========================--------------------------------------------
 # BULK USAGE OF PYTRACKPRO
