@@ -44,7 +44,7 @@ def readWindowBetweenFlags(data_path,user_file,startFlag,endFlag,section,filestr
     output_filename = (data_path+user_file+"_"+filestring+outType)
 
     # open output file
-    df = open((output_filename),'a')
+    df = open((output_filename),'w')
 
     # open the input file for reading
     with open(input_filename,'r') as f:
@@ -106,7 +106,7 @@ def getSamples_byTrial(data_path,user_file,startFlag,endFlag,filestring,inType,o
         for line in f:
             # get line where baseline starts (pre or post)
             if(startFlag in line):
-                print("Trial:",TRIAL)
+                #print("Trial:",TRIAL)
                 startFound = True
                 SECTION=TRIAL
             else:
