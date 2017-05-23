@@ -3,7 +3,7 @@ import time
 import glob
 
 # define function to read baseline data
-def readBaseline(data_path,user_file,startFlag,endFlag,section,filestring,inType,outType):
+def readWindowBetweenFlags(data_path,user_file,startFlag,endFlag,section,filestring,inType,outType):
     start_time = time.time()
 
     # define eyetracking messages to ignore
@@ -45,10 +45,10 @@ def readBaseline(data_path,user_file,startFlag,endFlag,section,filestring,inType
     print("SESSION TOTAL PROCESSING TIME:",elapsed,"seconds")
 # [END_FUNCTION] -------------------------------------------------------
 
-def processParticipant(data_path,user_file):
+def extract_BaselineSamples(data_path,user_file):
     start_time = time.time()
-    readBaseline(data_path,user_file,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
-    readBaseline(data_path,user_file,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
+    readWindowBetweenFlags(data_path,user_file,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
+    readWindowBetweenFlags(data_path,user_file,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
     elapsed = time.time() - start_time
     print("PARTICIPANT TOTAL PROCESSING TIME:",elapsed,"seconds")
 # [END_FUNCTION] -------------------------------------------------------
@@ -60,10 +60,12 @@ data_path = 'data/'
 # glob search construction
 glob_search = data_path + "*.asc"
 
+def bulk
+
 # search for all asc files
 for name in glob.glob(glob_search):
     filename = name
     user_file_info = name.split("data\\")[1].split(".asc")[0]
 
     # process participant
-    processParticipant(data_path,user_file_info)
+    extract_BaselineSamples(data_path,user_file_info)
