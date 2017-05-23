@@ -1,6 +1,6 @@
 # pyTrackProcess | Python module
 ## A python module to simplify eye-tracking data-processing
-<hr>
+
 Python script to pre-process Eyelink ASCII files and extract data in csv format between two sentinel flags
 
 # Features
