@@ -24,30 +24,30 @@ import pyeye.reports.trial
 
 ### Single trial output (assumed trial has start | end flags)
 
-'''
+```python
 pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1",".csv")
-'''
+```
 
 ### Multiple trial output (uses trial start flag)
 
-'''
+```python
 pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".csv")
-'''
+```
 
 ### Output all blinks within two sentinels, for each trial
 
-'''
+```python
 pyeye.reports.event.blink(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
-'''
+```
 
 ### Output all fixations within two sentinels, for each trial
 
-'''
+```python
 pyeye.reports.event.fixation(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
-'''
+```
 
 ### Output all saccades within two sentinels, for each trial
 
-'''
+```python
 pyeye.reports.event.saccade(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
-'''
+```
