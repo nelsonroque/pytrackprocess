@@ -9,3 +9,6 @@ Python script to pre-process Eyelink ASCII files and extract data in csv format 
 - extract blinks only<br>
 - extract fixations only<br>
 - extract saccades only<br>
+
+# Usage
+- See <i>usage.py</i> for details on function calls and data paths
