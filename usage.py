@@ -2,26 +2,12 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # PYTRACKPRO (v.0.1) #
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-# ASSUMPTIONS
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-- YOU HAVE IMPLEMENTED MSG EVENTS IN YOUR EXPERIMENT
-    - SPECIFICALLY A UNIQUE START AND END EVENT MESSAGE (i.e. trial_1_start, trial_1_end)
-    - VIA EXPERIMENT BUILDER, OPENSESAME, PSYCHOPY, ETC
-- ASSUMES SR RESEARCH EYELINK-1000 DATAFILES (EDF) HAVE BEEN CONVERTED TO ASC files
-    - EYELINK PROVIDES AN EDF2ASC UTILITY FOR THIS
-
-# PLANS
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-- IMPLEMENT AS MODULE
-- CLEAN UP FUNCTION NAMES
-- SHORTEN FUNCTION CALLS
-- IMPLEMENT READING OF CONFIG FILE FOR TRIAL VARS TO LOOK FOR
 '''
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # LIBRARIES
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-import pytrack
+import pyeye.reports.event
+import pyeye.reports.trial
 import time
 import glob
 # ----------------------------------------------------------------------
@@ -46,14 +32,13 @@ def custom_batch(data_path,glob_search):
         # -----------------------------------------------
         # -----------------------------------------------
 
-        # MODIFY YOUR FUNCTION HERE FOR YOUR EXPERIMENT
-        # process both baseline events
-        pytrack.getSingleWindowReport.getSingleWindowReport(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
-        pytrack.getSingleWindowReport.getSingleWindowReport(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
-        pytrack.getTrialReport.getTrialReport(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".asc",".csv")
-        pytrack.getBlinkReport.getBlinkReport(data_path,user_file_info,"start_trial",'stop_trial',"BLINKS",".asc",".csv")
-        pytrack.getFixationReport.getFixationReport(data_path,user_file_info,"start_trial",'stop_trial',"FIXATION",".asc",".csv")
-        pytrack.getSaccadeReport.getSaccadeReport(data_path,user_file_info,"start_trial",'stop_trial',"SACCADE",".asc",".csv")
+        # EXAMPLES OF ALL FUNCTION CALLS POSSIBLE AT THE MOMENT (FOR EACH PARTICIPANT)
+        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1","B1",".asc",".csv")
+        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2","B2",".asc",".csv")
+        pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".asc",".csv")
+        pyeye.reports.event.blink(data_path,user_file_info,"start_trial",'stop_trial',"BLINKS",".asc",".csv")
+        pyeye.reports.event.fixation(data_path,user_file_info,"start_trial",'stop_trial',"FIXATION",".asc",".csv")
+        pyeye.reports.event.saccade(data_path,user_file_info,"start_trial",'stop_trial',"SACCADE",".asc",".csv")
 
         # -----------------------------------------------
         # -----------------------------------------------
