@@ -59,7 +59,7 @@ def single(data_path,user_file,startFlag,endFlag,filestring,outType):
                     FRAME = line_data[0]
                     if(FRAME.isdigit()):
                         X_COORD = line_data[1]
-                        if(X_COORD.isdigit()):
+                        if X_COORD != "." or ("I" not in X_COORD):
                             Y_COORD = line_data[2]
                             PUPIL_SIZE = line_data[3]
                             TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
@@ -117,7 +117,7 @@ def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
                             FRAME = line_data[0]
                             if(FRAME.isdigit()):
                                 X_COORD = line_data[1]
-                                if(X_COORD.isdigit()):
+                                if X_COORD != "." or ("I" not in X_COORD):
                                     Y_COORD = line_data[2]
                                     PUPIL_SIZE = line_data[3]
                                     TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
