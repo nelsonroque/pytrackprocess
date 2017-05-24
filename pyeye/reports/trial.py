@@ -59,10 +59,11 @@ def single(data_path,user_file,startFlag,endFlag,filestring,outType):
                     FRAME = line_data[0]
                     if(FRAME.isdigit()):
                         X_COORD = line_data[1]
-                        Y_COORD = line_data[2]
-                        PUPIL_SIZE = line_data[3]
-                        TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
-                        df.write(",".join(TRIAL_DATA)+"\n")
+                        if(X_COORD.isdigit()):
+                            Y_COORD = line_data[2]
+                            PUPIL_SIZE = line_data[3]
+                            TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                            df.write(",".join(TRIAL_DATA)+"\n")
 
     df.close()
     elapsed = time.time() - start_time
@@ -116,10 +117,11 @@ def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
                             FRAME = line_data[0]
                             if(FRAME.isdigit()):
                                 X_COORD = line_data[1]
-                                Y_COORD = line_data[2]
-                                PUPIL_SIZE = line_data[3]
-                                TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
-                                df.write(",".join(TRIAL_DATA)+"\n")
+                                if(X_COORD.isdigit()):
+                                    Y_COORD = line_data[2]
+                                    PUPIL_SIZE = line_data[3]
+                                    TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                                    df.write(",".join(TRIAL_DATA)+"\n")
 
     df.close()
     elapsed = time.time() - start_time
