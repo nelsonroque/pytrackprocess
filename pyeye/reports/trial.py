@@ -26,6 +26,8 @@
 def single(data_path,user_file,startFlag,endFlag,filestring,outType):
     import time
     import glob
+    import re
+
     start_time = time.time()
 
     # define eyetracking messages to ignore
@@ -53,17 +55,23 @@ def single(data_path,user_file,startFlag,endFlag,filestring,outType):
             else:
                 # get eye movements/pupil until end of baseline, #ignorind eyetracking messages
                 if not any(x in line for x in TRACK_MSGS):
-                    line = line.replace(' ', '')
-                    #print(line)
-                    line_data = line.split("\t")
+                    myline = line.replace('\n', ' ')
+                    myline = myline.replace(' ', '')
+                    line_data = myline.split("\t")
                     FRAME = line_data[0]
-                    if(FRAME.isdigit()):
-                        X_COORD = line_data[1]
-                        if X_COORD != "." or ("I" not in X_COORD):
-                            Y_COORD = line_data[2]
-                            PUPIL_SIZE = line_data[3]
-                            TRIAL_DATA = [SECTION,FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
-                            df.write(",".join(TRIAL_DATA)+"\n")
+                    if re.match("^[0-9]+$",FRAME) is not None:
+                        if(len(line_data) < 5):
+                            #print(line_data)
+                            #print(len(line_data))
+                            print("TRACKING LOST")
+                            print(line_data)
+                        else:
+                            X_COORD = line_data[1]
+                            if re.match("^\d+?\.\d+?$", X_COORD) is not None:
+                                Y_COORD = line_data[2]
+                                PUPIL_SIZE = line_data[3]
+                                TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                                df.write(",".join(TRIAL_DATA)+"\n")
 
     df.close()
     elapsed = time.time() - start_time
@@ -77,6 +85,7 @@ def single(data_path,user_file,startFlag,endFlag,filestring,outType):
 def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
     import time
     import glob
+    import re
 
     start_time = time.time()
 
@@ -112,16 +121,23 @@ def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
                 else:
                     if(startFound):
                         if not any(x in line for x in TRACK_MSGS):
-                            myline = line.replace(' ', '')
+                            myline = line.replace('\n', ' ')
+                            myline = myline.replace(' ', '')
                             line_data = myline.split("\t")
                             FRAME = line_data[0]
-                            if(FRAME.isdigit()):
-                                X_COORD = line_data[1]
-                                if X_COORD != "." or ("I" not in X_COORD):
-                                    Y_COORD = line_data[2]
-                                    PUPIL_SIZE = line_data[3]
-                                    TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
-                                    df.write(",".join(TRIAL_DATA)+"\n")
+                            if re.match("^[0-9]+$",FRAME) is not None:
+                                if(len(line_data) < 5):
+                                    #print(line_data)
+                                    #print(len(line_data))
+                                    print("TRACKING LOST")
+                                    print(line_data)
+                                else:
+                                    X_COORD = line_data[1]
+                                    if re.match("^\d+?\.\d+?$", X_COORD) is not None:
+                                        Y_COORD = line_data[2]
+                                        PUPIL_SIZE = line_data[3]
+                                        TRIAL_DATA = [str(SECTION),FRAME,X_COORD,Y_COORD,PUPIL_SIZE]
+                                        df.write(",".join(TRIAL_DATA)+"\n")
 
     df.close()
     elapsed = time.time() - start_time
