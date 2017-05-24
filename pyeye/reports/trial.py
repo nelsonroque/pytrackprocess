@@ -64,7 +64,7 @@ def single(data_path,user_file,startFlag,endFlag,filestring,outType):
                             #print(line_data)
                             #print(len(line_data))
                             print("TRACKING LOST")
-                            print(line_data)
+                            #print(line_data)
                         else:
                             X_COORD = line_data[1]
                             if re.match("^\d+?\.\d+?$", X_COORD) is not None:
@@ -130,7 +130,7 @@ def multiple(data_path,user_file,startFlag,endFlag,filestring,outType):
                                     #print(line_data)
                                     #print(len(line_data))
                                     print("TRACKING LOST")
-                                    print(line_data)
+                                    #print(line_data)
                                 else:
                                     X_COORD = line_data[1]
                                     if re.match("^\d+?\.\d+?$", X_COORD) is not None:

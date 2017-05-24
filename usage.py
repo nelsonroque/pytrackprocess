@@ -10,6 +10,7 @@ import pyeye.reports.event
 import pyeye.reports.trial
 import time
 import glob
+import sys
 # ----------------------------------------------------------------------
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -20,8 +21,11 @@ def custom_batch(data_path,glob_search):
     # search for all asc files (for each participant)
     process_time = time.time()
     for name in glob.glob(glob_search):
+        print(name)
+        data_path = data_path[:-1]
+        data_path = data_path + '\\'
         # split everything off except the participant identifier
-        user_file_info = name.split("data\\")[1].split(".asc")[0]
+        user_file_info = name.split(data_path)[1].split(".asc")[0]
 
         # get start time for participant processing
         start_time = time.time()
@@ -33,9 +37,9 @@ def custom_batch(data_path,glob_search):
         # -----------------------------------------------
 
         # EXAMPLES OF ALL FUNCTION CALLS POSSIBLE AT THE MOMENT (FOR EACH PARTICIPANT)
-        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1",".csv")
-        pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2",".csv")
-        #pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".csv")
+        #pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_1","stop_baseline_1","BASELINE_1",".csv")
+        #pyeye.reports.trial.single(data_path,user_file_info,"start_baseline_2","stop_baseline_2","BASELINE_2",".csv")
+        pyeye.reports.trial.multiple(data_path,user_file_info,"start_trial",'stop_trial',"EXP",".csv")
         #pyeye.reports.event.blink(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
         #pyeye.reports.event.fixation(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
         #pyeye.reports.event.saccade(data_path,user_file_info,'R',"start_trial",'stop_trial',".csv")
@@ -60,9 +64,13 @@ def custom_batch(data_path,glob_search):
 # ==========================--------------------------------------------
 
 # create filename
-data_path = 'data/'
+data_path = str(sys.argv[1])
+
+if(data_path == ''):
+    data_path = "data/"
 
 # glob search construction
 glob_search = data_path + "*.asc"
 
+# function to run for each participant
 custom_batch(data_path,glob_search)
